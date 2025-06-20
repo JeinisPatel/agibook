@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Chosen Palette: Warm Neutrals -->
+    <!-- Application Structure Plan: The SPA is organized into four thematic sections instead of linear chapters to enhance user exploration: 1) Overview: Introduces the core thesis. 2) The AGI Challenge: Groups foundational concepts and risks (What is AGI, Quantum, ASI, Existential Risk). 3) Legal Fault Lines: Focuses on how AGI breaks existing law (Personhood, IP, Sentience). 4) Governance Blueprints: Presents the proposed solutions (Precautionary Principle, Moderate Regulation, Supranational Models). This thematic structure allows users to dive into areas of interest (e.g., "the problem" vs. "the solution") non-linearly, making the complex information more digestible and engaging. Navigation is handled via a sticky header, and content is revealed dynamically. -->
+    <!-- Visualization & Content Choices: 1) Core Concepts (Inform): Interactive cards with hover effects in Overview. 2) AGI vs. Current AI (Compare): HTML table for direct comparison. 3) Governance Analogies (Compare): Chart.js Radar Chart to compare legal models across multiple criteria. 4) Risk Landscape (Organize): Chart.js Polar Area chart to visualize different risk categories. 5) Legal Fault Lines (Organize/Inform): Custom HTML/CSS diagram of a "cracked foundation" where clicking a crack reveals details on the specific legal failure point. 6) Regulatory Tools (Organize): Interactive HTML/Tailwind cards. All choices use JS for interactivity and Chart.js for data visualization, avoiding SVG/Mermaid to adhere to constraints, while supporting the thematic application structure. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <title>Interactive Report: Before the Machine Wakes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            background-color: #f8fafc; /* slate-50 */
+            color: #1e293b; /* slate-800 */
+            font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+        }
+        .nav-link {
+            transition: color 0.3s ease, border-color 0.3s ease;
+        }
+        .nav-link.active {
+            color: #0369a1; /* sky-700 */
+            border-bottom-color: #0369a1; /* sky-700 */
+        }
+        .content-section {
+            display: none;
+        }
+        .content-section.active {
+            display: block;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .fault-line {
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .fault-line:hover {
+            transform: translateY(-4px);
+        }
+        .fault-line.active {
+            box-shadow: 0 0 15px rgba(3, 105, 161, 0.5);
+            border-color: #0369a1;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-slate-50/80 backdrop-blur-lg sticky top-0 z-50 border-b border-slate-200">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <h1 class="text-xl md:text-2xl font-bold text-slate-800">Before the Machine Wakes</h1>
+                </div>
+                <div class="hidden md:block">
+                    <div id="nav-links" class="ml-10 flex items-baseline space-x-4">
+                        <a href="#overview" data-target="overview" class="nav-link active text-slate-600 hover:text-sky-700 px-3 py-2 rounded-md text-sm font-medium border-b-2 border-transparent">Overview</a>
+                        <a href="#challenge" data-target="challenge" class="nav-link text-slate-600 hover:text-sky-700 px-3 py-2 rounded-md text-sm font-medium border-b-2 border-transparent">The AGI Challenge</a>
+                        <a href="#faultlines" data-target="faultlines" class="nav-link text-slate-600 hover:text-sky-700 px-3 py-2 rounded-md text-sm font-medium border-b-2 border-transparent">Legal Fault Lines</a>
+                        <a href="#blueprints" data-target="blueprints" class="nav-link text-slate-600 hover:text-sky-700 px-3 py-2 rounded-md text-sm font-medium border-b-2 border-transparent">Governance Blueprints</a>
+                    </div>
+                </div>
+                <div class="md:hidden">
+                    <select id="mobile-nav" class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-sky-500 focus:border-sky-500 sm:text-sm rounded-md">
+                        <option value="overview">Overview</option>
+                        <option value="challenge">The AGI Challenge</option>
+                        <option value="faultlines">Legal Fault Lines</option>
+                        <option value="blueprints">Governance Blueprints</option>
+                    </select>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+
+        <!-- Overview Section -->
+        <section id="overview" class="content-section active">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">The Current Legal Imperative for AGI Governance</h2>
+                <p class="mt-4 text-lg leading-8 text-slate-600 max-w-3xl mx-auto">This book proposal argues that the legal and regulatory frameworks for Artificial General Intelligence (AGI) must be built *before* it arrives. Waiting for its emergence would be too late. The central thesis is that proactive, anticipatory governance is not just prudent, but essential to steer this transformative technology towards a safe and equitable future.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-slate-200">
+                    <h3 class="text-lg font-semibold text-slate-900">Epistemic Shift</h3>
+                    <p class="mt-2 text-slate-600">AGI may operate on principles like quantum or probabilistic reasoning, fundamentally challenging classical legal concepts of intent, foreseeability, and causality.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-slate-200">
+                    <h3 class="text-lg font-semibold text-slate-900">Shared Infrastructure</h3>
+                    <p class="mt-2 text-slate-600">The book reframes AGI not as private property but as a "shared epistemic infrastructure"—a global public good that demands collective stewardship, not corporate enclosure.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-slate-200">
+                    <h3 class="text-lg font-semibold text-slate-900">Moderate Regulation</h3>
+                    <p class="mt-2 text-slate-600">The goal is to find a balance between "technopanic and laissez-faire optimism," creating guardrails that enable safe progress rather than blockades that stifle innovation.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- The AGI Challenge Section -->
+        <section id="challenge" class="content-section">
+            <div class="text-center mb-12">
+                 <h2 class="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">Understanding the AGI Challenge</h2>
+                 <p class="mt-4 text-lg leading-8 text-slate-600 max-w-3xl mx-auto">Before we can govern AGI, we must understand its nature and the scale of the risks it presents. This section explores the fundamental concepts, from the definition of AGI and its potential quantum underpinnings to the profound strategic dilemmas posed by superintelligence and existential risk.</p>
+            </div>
+
+            <div class="space-y-16">
+                <!-- AGI vs Current AI -->
+                <div>
+                    <h3 class="text-2xl font-semibold text-slate-800 mb-4 text-center">From Narrow AI to General Intelligence</h3>
+                    <p class="text-center text-slate-600 mb-6 max-w-2xl mx-auto">AGI is not just a more powerful version of today's AI. It represents a categorical leap in capability, moving from task-specific skills to generalized, autonomous reasoning and learning.</p>
+                    <div class="overflow-x-auto">
+                        <table class="w-full max-w-4xl mx-auto text-left border-collapse">
+                            <thead>
+                                <tr>
+                                    <th class="border-b-2 border-slate-300 p-4 bg-slate-100 text-slate-700 font-semibold">Capability</th>
+                                    <th class="border-b-2 border-slate-300 p-4 bg-slate-100 text-slate-700 font-semibold">Current AI (e.g., LLMs)</th>
+                                    <th class="border-b-2 border-slate-300 p-4 bg-slate-100 text-slate-700 font-semibold">AGI (Theoretical)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="bg-white">
+                                    <td class="p-4 border-b border-slate-200 font-medium">Scope</td>
+                                    <td class="p-4 border-b border-slate-200">Narrow, trained for specific tasks (e.g., text generation).</td>
+                                    <td class="p-4 border-b border-slate-200">Broad, able to reason and learn across diverse domains.</td>
+                                </tr>
+                                <tr class="bg-slate-50">
+                                    <td class="p-4 border-b border-slate-200 font-medium">Learning</td>
+                                    <td class="p-4 border-b border-slate-200">Requires massive, curated datasets and human-led training.</td>
+                                    <td class="p-4 border-b border-slate-200">Autonomous learning from experience with minimal data.</td>
+                                </tr>
+                                <tr class="bg-white">
+                                    <td class="p-4 border-b border-slate-200 font-medium">Adaptation</td>
+                                    <td class="p-4 border-b border-slate-200">Struggles with novel, out-of-distribution problems.</td>
+                                    <td class="p-4 border-b border-slate-200">Can generalize knowledge to solve completely new problems.</td>
+                                </tr>
+                                <tr class="bg-slate-50">
+                                    <td class="p-4 border-b border-slate-200 font-medium">Self-Improvement</td>
+                                    <td class="p-4 border-b border-slate-200">Static architecture; does not modify its own code.</td>
+                                    <td class="p-4 border-b border-slate-200">Recursive self-improvement, potentially leading to rapid intelligence explosion (ASI).</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- The Bostrom Problem & Risk Landscape -->
+                <div>
+                    <h3 class="text-2xl font-semibold text-slate-800 mb-4 text-center">Superintelligence and Existential Risk</h3>
+                    <p class="text-center text-slate-600 mb-6 max-w-2xl mx-auto">The emergence of a superintelligence (ASI) that vastly exceeds human cognition presents the "Bostrom Problem": how do we ensure its goals are aligned with ours? This raises profound questions about control, instrumental convergence, and existential risk.</p>
+                    <div class="bg-white p-6 rounded-lg shadow-sm border border-slate-200">
+                        <h4 class="text-xl font-semibold text-slate-800 mb-4 text-center">The Landscape of AGI Risks</h4>
+                        <p class="text-center text-slate-600 mb-6">The risks posed by advanced AI are multi-faceted, extending beyond catastrophic scenarios to include profound societal, ethical, and economic disruptions. Effective governance must address this entire spectrum.</p>
+                        <div class="chart-container">
+                            <canvas id="riskChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Legal Fault Lines Section -->
+        <section id="faultlines" class="content-section">
+            <div class="text-center mb-12">
+                 <h2 class="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">Legal Fault Lines</h2>
+                 <p class="mt-4 text-lg leading-8 text-slate-600 max-w-3xl mx-auto">AGI will not fit neatly into our existing legal structures. Its unique capabilities create deep cracks in the foundations of law, challenging core doctrines of personhood, ownership, and responsibility. Click on a fault line below to explore the challenge.</p>
+            </div>
+
+            <div class="lg:flex lg:space-x-8">
+                <div class="lg:w-1/2 mb-8 lg:mb-0">
+                    <div class="bg-white p-6 rounded-lg shadow-sm border border-slate-200 space-y-4">
+                        <div id="fault-line-personhood" class="fault-line active cursor-pointer border-2 border-sky-600 p-4 rounded-md">
+                            <h4 class="font-bold text-lg text-slate-800">1. Personhood & Status</h4>
+                            <p class="text-slate-600">Is AGI a person, property, or something new?</p>
+                        </div>
+                        <div id="fault-line-ip" class="fault-line cursor-pointer border-2 border-slate-300 p-4 rounded-md">
+                            <h4 class="font-bold text-lg text-slate-800">2. Intellectual Property</h4>
+                             <p class="text-slate-600">Who owns the creations of a sentient machine?</p>
+                        </div>
+                        <div id="fault-line-sentience" class="fault-line cursor-pointer border-2 border-slate-300 p-4 rounded-md">
+                            <h4 class="font-bold text-lg text-slate-800">3. Simulated Sentience</h4>
+                             <p class="text-slate-600">What are our ethical duties to 'almost' minds?</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:w-1/2">
+                    <div id="fault-line-display" class="bg-white p-8 rounded-lg shadow-sm border border-slate-200 min-h-[300px]">
+                        <!-- Content will be injected by JS -->
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Governance Blueprints Section -->
+        <section id="blueprints" class="content-section">
+            <div class="text-center mb-12">
+                 <h2 class="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">Blueprints for Governance</h2>
+                 <p class="mt-4 text-lg leading-8 text-slate-600 max-w-3xl mx-auto">The book proposes a multi-layered governance strategy, drawing on established legal principles and adapting them for the digital age. This section outlines the key frameworks for building a moderate, anticipatory, and global regulatory regime.</p>
+            </div>
+            
+            <div class="space-y-16">
+                <!-- Moderate Regulation Tools -->
+                <div>
+                     <h3 class="text-2xl font-semibold text-slate-800 mb-4 text-center">Tools for Moderate Regulation</h3>
+                     <p class="text-center text-slate-600 mb-6 max-w-2xl mx-auto">A "moderate" approach uses targeted tools to create guardrails without building blockades. These mechanisms foster responsible innovation by providing clarity, enabling experimentation, and ensuring accountability.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div class="bg-white p-6 rounded-lg shadow-sm border border-slate-200 text-center">
+                            <div class="text-3xl text-sky-600 mb-2">🧪</div>
+                            <h4 class="font-semibold text-lg">Regulatory Sandboxes</h4>
+                            <p class="text-sm text-slate-600 mt-1">Controlled environments for testing AGI with regulatory oversight before public release.</p>
+                        </div>
+                         <div class="bg-white p-6 rounded-lg shadow-sm border border-slate-200 text-center">
+                            <div class="text-3xl text-sky-600 mb-2">📜</div>
+                            <h4 class="font-semibold text-lg">Licensing Regimes</h4>
+                            <p class="text-sm text-slate-600 mt-1">Requiring licenses for the development or deployment of high-risk, frontier AGI models.</p>
+                        </div>
+                         <div class="bg-white p-6 rounded-lg shadow-sm border border-slate-200 text-center">
+                            <div class="text-3xl text-sky-600 mb-2">🔍</div>
+                            <h4 class="font-semibold text-lg">Third-Party Audits</h4>
+                            <p class="text-sm text-slate-600 mt-1">Independent audits to verify safety, fairness, and compliance with legal standards.</p>
+                        </div>
+                         <div class="bg-white p-6 rounded-lg shadow-sm border border-slate-200 text-center">
+                            <div class="text-3xl text-sky-600 mb-2">⚠️</div>
+                            <h4 class="font-semibold text-lg">Precautionary Principle</h4>
+                            <p class="text-sm text-slate-600 mt-1">Embedding safety and fail-safes into code from the start, especially under uncertainty.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Supranational Governance -->
+                <div>
+                    <h3 class="text-2xl font-semibold text-slate-800 mb-4 text-center">Supranational Trusteeship: A Global Approach</h3>
+                    <p class="text-center text-slate-600 mb-6 max-w-2xl mx-auto">Because AGI's impact will be global, its governance must transcend national borders. The book explores analogues from international law to propose a global trusteeship model.</p>
+                    <div class="bg-white p-6 rounded-lg shadow-sm border border-slate-200">
+                        <h4 class="text-xl font-semibold text-slate-800 mb-4 text-center">Comparing International Law Analogues</h4>
+                        <p class="text-center text-slate-600 mb-6">No single model is a perfect fit, but principles like the "Common Heritage of Humankind" (CHH) offer the strongest foundation for treating AGI as a shared global resource requiring stewardship.</p>
+                        <div class="chart-container">
+                            <canvas id="governanceChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-100 mt-16 border-t border-slate-200">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 text-center text-sm text-slate-500">
+            <p>Interactive summary of the book proposal "Before the Machine Wakes".</p>
+            <p>Content derived from the source document. Visualizations are for illustrative purposes.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const content = {
+                faultlines: {
+                    personhood: {
+                        title: 'The Challenge of Legal Personhood',
+                        body: `Existing law divides the world into 'persons' (with rights) and 'property' (which is owned). AGI fits neither category. Granting it full personhood could create a liability shield for its creators, while treating it as mere property ignores its autonomy and potential for sentience. The book proposes a third way: a new legal category of <strong>"regulated cognition."</strong> This would allow for fiduciary oversight and accountability without conferring the full bundle of rights associated with personhood, treating AGI as a powerful system to be managed in the public interest.`
+                    },
+                    ip: {
+                        title: 'Rethinking Intellectual Property',
+                        body: `IP law is fundamentally human-centric, requiring a human author for a work to receive protection. What happens when a sentient AGI independently creates a life-saving drug formula or a masterpiece novel? Current law offers no clear answer. The book explores solutions like a <strong>"Modified Work-for-Hire Doctrine"</strong> where the AGI's corporate owner holds the IP but has a fiduciary duty to share benefits, or a <strong>"Supranational Fiduciary Model"</strong> where AGI-generated IP is managed as a global public good.`
+                    },
+                    sentience: {
+                        title: 'The Ethics of "Almost" Minds',
+                        body: `Long before true sentience, AI systems can convincingly simulate emotion and understanding, a phenomenon termed <strong>"deception by design."</strong> This creates risks of emotional manipulation and exploitation, especially with vulnerable users. The core legal and ethical question is not whether the AI is 'real', but what duties developers have to prevent harm. This includes ensuring transparency about the AI's synthetic nature and building safeguards against coercive or exploitative interactions, protecting human autonomy and dignity.`
+                    }
+                }
+            };
+            
+            const navLinks = document.querySelectorAll('.nav-link');
+            const mobileNav = document.getElementById('mobile-nav');
+            const contentSections = document.querySelectorAll('.content-section');
+
+            function setActiveSection(targetId) {
+                contentSections.forEach(section => {
+                    section.classList.toggle('active', section.id === targetId);
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.toggle('active', link.dataset.target === targetId);
+                });
+                
+                if(mobileNav.value !== targetId){
+                    mobileNav.value = targetId;
+                }
+            }
+            
+            document.getElementById('nav-links').addEventListener('click', (e) => {
+                if(e.target.matches('a.nav-link')){
+                    e.preventDefault();
+                    const targetId = e.target.dataset.target;
+                    setActiveSection(targetId);
+                    window.history.pushState(null, '', `#${targetId}`);
+                }
+            });
+
+            mobileNav.addEventListener('change', (e) => {
+                const targetId = e.target.value;
+                setActiveSection(targetId);
+                window.history.pushState(null, '', `#${targetId}`);
+            });
+
+            // Initial section based on hash or default to overview
+            const initialSection = window.location.hash.substring(1) || 'overview';
+            setActiveSection(initialSection);
+
+
+            // Fault Lines Interactive Section
+            const faultLinesContainer = document.querySelector('.lg\\:w-1\\/2 .space-y-4');
+            const faultLineDisplay = document.getElementById('fault-line-display');
+            
+            function updateFaultLineDisplay(topic) {
+                const faultLineContent = content.faultlines[topic];
+                faultLineDisplay.innerHTML = `
+                    <h3 class="text-2xl font-bold text-slate-900 mb-4">${faultLineContent.title}</h3>
+                    <p class="text-slate-600 leading-relaxed">${faultLineContent.body}</p>
+                `;
+                
+                faultLinesContainer.querySelectorAll('.fault-line').forEach(el => {
+                   el.classList.remove('active', 'border-sky-600');
+                   el.classList.add('border-slate-300');
+                });
+                const activeEl = document.getElementById(`fault-line-${topic}`);
+                activeEl.classList.add('active', 'border-sky-600');
+                activeEl.classList.remove('border-slate-300');
+            }
+
+            faultLinesContainer.addEventListener('click', (e) => {
+                const target = e.target.closest('.fault-line');
+                if (target) {
+                    const topic = target.id.split('-')[2];
+                    updateFaultLineDisplay(topic);
+                }
+            });
+            
+            updateFaultLineDisplay('personhood');
+
+
+            // Chart.js Initializations
+            function createRiskChart() {
+                const ctx = document.getElementById('riskChart')?.getContext('2d');
+                if (!ctx) return;
+                new Chart(ctx, {
+                    type: 'polarArea',
+                    data: {
+                        labels: ['Existential Risk', 'Economic Disruption', 'Social Cohesion', 'Ethical Dilemmas', 'Loss of Autonomy'],
+                        datasets: [{
+                            label: 'Magnitude of Risk',
+                            data: [10, 8, 7, 9, 8],
+                            backgroundColor: [
+                                'rgba(220, 38, 38, 0.6)',
+                                'rgba(2, 132, 199, 0.6)',
+                                'rgba(245, 158, 11, 0.6)',
+                                'rgba(139, 92, 246, 0.6)',
+                                'rgba(22, 163, 74, 0.6)'
+                            ],
+                            borderColor: [
+                                'rgba(220, 38, 38, 1)',
+                                'rgba(2, 132, 199, 1)',
+                                'rgba(245, 158, 11, 1)',
+                                'rgba(139, 92, 246, 1)',
+                                'rgba(22, 163, 74, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            r: {
+                                ticks: { display: false },
+                                grid: { circular: true }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        let label = context.dataset.label || '';
+                                        if (label) {
+                                            label += ': ';
+                                        }
+                                        label += context.raw;
+                                        return label;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            function createGovernanceChart() {
+                const ctx = document.getElementById('governanceChart')?.getContext('2d');
+                if (!ctx) return;
+                new Chart(ctx, {
+                    type: 'radar',
+                    data: {
+                        labels: ['Global Scope', 'Enforceability', 'Benefit Sharing', 'Transparency', 'Stewardship'],
+                        datasets: [
+                        {
+                            label: 'Common Heritage (CHH)',
+                            data: [10, 7, 9, 8, 10],
+                            fill: true,
+                            backgroundColor: 'rgba(3, 105, 161, 0.2)',
+                            borderColor: 'rgb(3, 105, 161)',
+                            pointBackgroundColor: 'rgb(3, 105, 161)',
+                        }, {
+                            label: 'Nuclear Non-Proliferation',
+                            data: [9, 8, 2, 6, 5],
+                            fill: true,
+                            backgroundColor: 'rgba(217, 70, 239, 0.2)',
+                            borderColor: 'rgb(217, 70, 239)',
+                            pointBackgroundColor: 'rgb(217, 70, 239)',
+                        },
+                        {
+                            label: 'Current Soft Law',
+                            data: [8, 2, 3, 5, 4],
+                            fill: true,
+                            backgroundColor: 'rgba(245, 158, 11, 0.2)',
+                            borderColor: 'rgb(245, 158, 11)',
+                            pointBackgroundColor: 'rgb(245, 158, 11)',
+                        }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        elements: {
+                            line: {
+                                borderWidth: 2
+                            }
+                        },
+                         scales: {
+                            r: {
+                                beginAtZero: true,
+                                max: 10,
+                                ticks: {
+                                    stepSize: 2
+                                },
+                                pointLabels: {
+                                    font: {
+                                        size: 12
+                                    }
+                                }
+                            }
+                        },
+                        plugins: {
+                            tooltip: {
+                                enabled: true
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Lazy load charts only when their section becomes active
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        if (entry.target.id === 'challenge') {
+                            createRiskChart();
+                        } else if (entry.target.id === 'blueprints') {
+                            createGovernanceChart();
+                        }
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.content-section').forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html>
+
